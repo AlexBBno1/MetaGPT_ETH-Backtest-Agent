@@ -322,6 +322,40 @@ def create_detailed_trade_excel(df, signals, params, output_path):
         # Add account balance after each trade (starting from initial capital)
         trades_df['account_balance'] = bt_config.initial_capital + trades_df['cumulative_pnl']
         
+        # Calculate capital percentage invested (notional value / account balance before trade)
+        # Account balance before trade = current balance - this trade's pnl
+        account_before_trade = trades_df['account_balance'] - trades_df['pnl']
+        trades_df['capital_invested_pct'] = (trades_df['notional_value'] / account_before_trade * 100).round(2)
+        
+        # Calculate win/loss streaks (W1, W2, W3... or L1, L2, L3...)
+        streaks = []
+        current_streak_type = None  # 'W' or 'L'
+        current_streak_count = 0
+        max_win_streak = 0
+        max_loss_streak = 0
+        
+        for idx, row in trades_df.iterrows():
+            is_win = row['pnl'] > 0
+            
+            if is_win:
+                if current_streak_type == 'W':
+                    current_streak_count += 1
+                else:
+                    current_streak_type = 'W'
+                    current_streak_count = 1
+                streaks.append(f"W{current_streak_count}")
+                max_win_streak = max(max_win_streak, current_streak_count)
+            else:
+                if current_streak_type == 'L':
+                    current_streak_count += 1
+                else:
+                    current_streak_type = 'L'
+                    current_streak_count = 1
+                streaks.append(f"L{current_streak_count}")
+                max_loss_streak = max(max_loss_streak, current_streak_count)
+        
+        trades_df['streak'] = streaks
+        
         # Format for readability
         trades_df['entry_time'] = pd.to_datetime(trades_df['entry_time'])
         trades_df['exit_time'] = pd.to_datetime(trades_df['exit_time'])
@@ -330,6 +364,8 @@ def create_detailed_trade_excel(df, signals, params, output_path):
         trades_df.insert(0, 'trade_no', range(1, len(trades_df) + 1))
         
         print(f"  Total trades: {len(trades_df)}")
+        print(f"  Max win streak: {max_win_streak}")
+        print(f"  Max loss streak: {max_loss_streak}")
         print(f"  Win rate: {(trades_df['pnl'] > 0).mean() * 100:.1f}%")
         print(f"  Total P&L: ${trades_df['pnl'].sum():,.2f}")
     
@@ -381,10 +417,20 @@ def create_detailed_trade_excel(df, signals, params, output_path):
         {'parameter': k, 'value': v} for k, v in params.items()
     ])
     
+    # Calculate streak stats for metrics
+    max_win_streak = 0
+    max_loss_streak = 0
+    if len(trades_df) > 0 and 'streak' in trades_df.columns:
+        win_streaks = [int(s[1:]) for s in trades_df['streak'] if s.startswith('W')]
+        loss_streaks = [int(s[1:]) for s in trades_df['streak'] if s.startswith('L')]
+        max_win_streak = max(win_streaks) if win_streaks else 0
+        max_loss_streak = max(loss_streaks) if loss_streaks else 0
+    
     # Metrics sheet
-    metrics_df = pd.DataFrame([
-        {'metric': k, 'value': v} for k, v in result.metrics.items()
-    ])
+    metrics_list = [{'metric': k, 'value': v} for k, v in result.metrics.items()]
+    metrics_list.append({'metric': 'MaxWinStreak', 'value': max_win_streak})
+    metrics_list.append({'metric': 'MaxLossStreak', 'value': max_loss_streak})
+    metrics_df = pd.DataFrame(metrics_list)
     
     # Daily equity for charts
     daily_equity = equity_df['equity'].resample('D').last().dropna()
@@ -410,8 +456,8 @@ def create_detailed_trade_excel(df, signals, params, output_path):
             trade_cols = [
                 'trade_no', 'entry_time', 'exit_time', 'side', 
                 'entry_price', 'exit_price', 'size', 'leverage_used',
-                'notional_value', 'pnl', 'pnl_pct', 'cumulative_pnl',
-                'account_balance', 'holding_days', 'fees'
+                'notional_value', 'capital_invested_pct', 'pnl', 'pnl_pct', 
+                'cumulative_pnl', 'account_balance', 'streak', 'holding_days', 'fees'
             ]
             trade_cols = [c for c in trade_cols if c in trades_df.columns]
             trades_export = trades_df[trade_cols].copy()
