@@ -1,0 +1,13 @@
+{
+  "fast_ma": 20,
+  "slow_ma": 50,
+  "trend_ma": 100,
+  "adx_period": 14,
+  "atr_period": 14,
+  "vol_period": 20,
+  "momentum_period": 24,
+  "donchian_period": 20,
+  "adx_threshold": 22,
+  "target_vol": 0.45,
+  "min_hold": 8
+}

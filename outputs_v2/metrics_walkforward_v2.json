@@ -1,0 +1,38 @@
+{
+  "train": {
+    "CAGR": 39.87,
+    "annual_vol": 46.98,
+    "Sharpe": 0.95,
+    "Sortino": 0.64,
+    "MaxDrawdown": 36.54,
+    "Calmar": 1.09,
+    "WinRate": 37.2,
+    "ProfitFactor": 0.87,
+    "TradesCount": 207,
+    "AvgTradeReturn": -0.2308,
+    "Exposure": 22.31,
+    "Turnover": 165.09,
+    "TotalReturn": 173.64,
+    "FinalEquity": 41046.38,
+    "Years": 3.0001,
+    "TradesPerYear": 69.0
+  },
+  "test": {
+    "CAGR": 74.55,
+    "annual_vol": 43.21,
+    "Sharpe": 1.5,
+    "Sortino": 1.13,
+    "MaxDrawdown": 41.26,
+    "Calmar": 1.81,
+    "WinRate": 34.69,
+    "ProfitFactor": 0.98,
+    "TradesCount": 196,
+    "AvgTradeReturn": 0.1057,
+    "Exposure": 23.15,
+    "Turnover": 199.77,
+    "TotalReturn": 408.03,
+    "FinalEquity": 76204.97,
+    "Years": 2.9178,
+    "TradesPerYear": 67.17
+  }
+}

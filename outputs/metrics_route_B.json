@@ -1,0 +1,16 @@
+{
+  "CAGR": 16.79,
+  "annual_vol": 55.26,
+  "Sharpe": 0.56,
+  "Sortino": 0.74,
+  "MaxDrawdown": 68.38,
+  "Calmar": 0.25,
+  "WinRate": 29.63,
+  "ProfitFactor": 1.06,
+  "TradesCount": 1556,
+  "AvgTradeReturn": 0.035,
+  "Exposure": 94.03,
+  "Turnover": 38799.7,
+  "TotalReturn": 150.6,
+  "FinalEquity": 37589.77
+}

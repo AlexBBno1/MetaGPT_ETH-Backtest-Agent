@@ -1,0 +1,9 @@
+test_type,test_name,CAGR,MaxDD,Sharpe
+yearly_split,2020-2021,48.75,32.06,1.08
+yearly_split,2022,16.27,36.54,0.56
+yearly_split,2023,3.39,29.03,0.27
+yearly_split,2024-2025,131.09,41.26,2.03
+cost_sensitivity,cost_1.0x,56.89,41.26,1.22
+cost_sensitivity,cost_2.0x,33.07,54.91,0.86
+cost_sensitivity,cost_3.0x,12.84,68.92,0.49
+param_perturbation,mean,51.303333333333335,42.087333333333326,1.1260000000000001
