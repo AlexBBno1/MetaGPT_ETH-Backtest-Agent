@@ -1,0 +1,15 @@
+{
+  "donchian_entry_period": 91,
+  "donchian_exit_period": 112,
+  "adx_gate_threshold": 28,
+  "chop_threshold": 65,
+  "regime_ma_period": 102,
+  "vol_target": 0.679840365549956,
+  "atr_stop_mult": 3.0132948252003517,
+  "crash_vol_mult": 2.49603293285665,
+  "min_hold_hours": 91,
+  "cooldown_hours": 22,
+  "position_change_threshold": 0.5273616527303164,
+  "leverage_cap": 1.0,
+  "disable_regime_gate": false
+}
